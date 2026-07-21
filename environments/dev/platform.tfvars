@@ -15,8 +15,11 @@ platform_repo_branch = "main"
 # Branch CodeBuild pushes rendered YAML to, and the root Application watches.
 deploy_branch = "deploy"
 
-# --- ECR (KCL modules published as OCI artifacts) ---
-ecr_repository_name = "kcl-modules"
+# --- ECR (KCL libraries published as OCI artifacts) ---
+# One repo per library under the namespace: kcl-modules/blueprints, etc.
+# Add a library: append here AND create libraries/<name>/ in the platform repo.
+ecr_namespace = "kcl-modules"
+kcl_libraries = ["blueprints"]
 
 # --- CI toolchain ---
 # Pin the KCL CLI the pipeline installs. 

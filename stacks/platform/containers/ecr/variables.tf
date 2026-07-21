@@ -5,9 +5,14 @@ variable "environment" {
   type        = string
 }
 
-variable "ecr_repository_name" {
-  description = "ECR repository for KCL modules published as OCI artifacts"
+variable "ecr_namespace" {
+  description = "Shared prefix for the per-library ECR repos (e.g. kcl-modules -> kcl-modules/blueprints)"
   type        = string
+}
+
+variable "kcl_libraries" {
+  description = "KCL libraries published as OCI; one ECR repo is created per entry as <namespace>/<name>"
+  type        = list(string)
 }
 
 variable "tags" {

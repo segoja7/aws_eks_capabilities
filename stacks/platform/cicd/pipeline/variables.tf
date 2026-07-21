@@ -21,14 +21,19 @@ variable "deploy_branch" {
   type        = string
 }
 
-variable "ecr_repository_arn" {
-  description = "ARN of the ECR repo — scopes the CodeBuild role's push/pull IAM"
+variable "ecr_registry" {
+  description = "ECR registry host (account.dkr.ecr.region.amazonaws.com) libraries push/pull from"
   type        = string
 }
 
-variable "ecr_repository_url" {
-  description = "URL of the ECR repo (host/repo) — the kcl mod push/pull target"
+variable "ecr_namespace" {
+  description = "Repo prefix for the per-library repos (e.g. kcl-modules)"
   type        = string
+}
+
+variable "ecr_repository_arns" {
+  description = "ARNs of every library repo — scopes the CodeBuild role's push/pull IAM"
+  type        = list(string)
 }
 
 variable "kcl_version" {
