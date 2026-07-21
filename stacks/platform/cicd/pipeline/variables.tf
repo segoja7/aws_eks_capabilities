@@ -21,6 +21,16 @@ variable "deploy_branch" {
   type        = string
 }
 
+variable "ecr_repository_arn" {
+  description = "ARN of the ECR repo — scopes the CodeBuild role's push/pull IAM"
+  type        = string
+}
+
+variable "ecr_repository_url" {
+  description = "URL of the ECR repo (host/repo) — the kcl mod push/pull target"
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
