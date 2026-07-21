@@ -3,12 +3,12 @@ variable "cluster_arn" {
   type        = string
 }
 
-variable "deploy_repo_url" {
-  description = "CodeCommit HTTPS URL the root Application watches; wired from the cicd/pipeline stack output"
+variable "manifests_repo" {
+  description = "ECR repo URL of the rendered-manifests OCI artifact the root Application watches (repoURL oci://...); from the ecr stack output"
   type        = string
 }
 
-variable "deploy_branch" {
-  description = "Branch the root Application tracks (targetRevision); same branch CodeBuild pushes rendered YAML to"
+variable "manifests_tag" {
+  description = "OCI channel tag the root Application tracks (targetRevision) — the environment name; matches MANIFESTS_TAG in the pipeline"
   type        = string
 }

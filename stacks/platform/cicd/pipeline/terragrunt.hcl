@@ -15,6 +15,7 @@ dependency "ecr" {
     registry_url    = "123456789012.dkr.ecr.us-east-1.amazonaws.com"
     namespace       = "kcl-modules"
     repository_arns = ["arn:aws:ecr:us-east-1:123456789012:repository/kcl-modules/mock"]
+    manifests_url   = "123456789012.dkr.ecr.us-east-1.amazonaws.com/kcl-modules/manifests"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "plan", "init", "destroy"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -27,6 +28,7 @@ inputs = {
   ecr_registry        = dependency.ecr.outputs.registry_url
   ecr_namespace       = dependency.ecr.outputs.namespace
   ecr_repository_arns = dependency.ecr.outputs.repository_arns
+  ecr_manifests_url   = dependency.ecr.outputs.manifests_url
 
   tags = {
     ProjectCode = local.environment_vars.locals.project

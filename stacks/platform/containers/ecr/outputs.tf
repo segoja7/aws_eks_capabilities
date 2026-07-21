@@ -7,10 +7,13 @@ output "namespace" {
   value = var.ecr_namespace
 }
 
-# Real ARNs of every library repo — the cicd role scopes its ECR IAM to exactly
-# these (grows automatically as libraries are added; no wildcard, no construction).
 output "repository_arns" {
-  value = [for m in module.ecr : m.repository_arn]
+  value = concat([for m in module.ecr : m.repository_arn], [module.manifests.repository_arn])
+}
+
+# Full URL (host/namespace/manifests) — the OCI push target and ArgoCD repoURL.
+output "manifests_url" {
+  value = module.manifests.repository_url
 }
 
 # name -> full repo URL (host/namespace/lib), handy for reference.

@@ -65,17 +65,25 @@ module "argocd" {
   tags = var.tags
 }
 
-# Grant the ArgoCD capability role RBAC on THIS cluster. 
-resource "aws_eks_access_policy_association" "argocd" {
+#   - ArgoCD: needs cluster-admin to deploy anything to the cluster.
+#   - KRO: its auto-created AmazonEKSKROPolicy only covers RGDs + instances, NOT the
+#     child resources the RGDs template (ACK resources). Documented gap:
+#     https://docs.aws.amazon.com/eks/latest/userguide/kro-permissions.html
+# Demo = ClusterAdmin; production = a custom ClusterRole scoped to the ACK apiGroups bound to a stable group.
+
+resource "aws_eks_access_policy_association" "capabilities" {
+  for_each = {
+    argocd = module.argocd.iam_role_arn
+    kro    = module.kro.iam_role_arn
+  }
+
   cluster_name  = module.eks.cluster_name
-  principal_arn = module.argocd.iam_role_arn
+  principal_arn = each.value
   policy_arn    = "arn:${data.aws_partition.current.partition}:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 
   access_scope {
     type = "cluster"
   }
-
-  depends_on = [module.argocd]
 }
 
 # The account's IAM Identity Center instance (single-region, in us-east-1).

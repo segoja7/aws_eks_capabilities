@@ -17,7 +17,7 @@ locals {
   # Backend Configuration
   backend_region        = "us-east-1"
   backend_bucket_name   = "test-wrapper-tfstate-071620260752"
-  backend_profile       = "segoja7"
+  backend_profile       = "segoja7-tf"
   backend_dynamodb_lock = "db-terraform-lock-071620260752"
   backend_key           = "terraform.tfstate"
   backend_encrypt = true

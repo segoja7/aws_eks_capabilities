@@ -12,18 +12,18 @@ node_desired_size   = 2
 platform_repo_name   = "platform-engineering-from-scratch"
 platform_repo_branch = "main"
 
-# Branch CodeBuild pushes rendered YAML to, and the root Application watches.
-deploy_branch = "deploy"
+# OCI
 
 # --- ECR (KCL libraries published as OCI artifacts) ---
-# One repo per library under the namespace: kcl-modules/blueprints, etc.
-# Add a library: append here AND create libraries/<name>/ in the platform repo.
+# One repo per library under the namespace: kcl-modules/blueprints.
 ecr_namespace = "kcl-modules"
 kcl_libraries = ["blueprints"]
 
 # --- CI toolchain ---
 # Pin the KCL CLI the pipeline installs. 
 kcl_version = "v0.12.7"
+# ORAS CLI — pushes the rendered manifests as an OCI artifact.
+oras_version = "v1.2.0"
 
 # --- ArgoCD identity ---
 argocd_admin_idc_group = "platform-admins"

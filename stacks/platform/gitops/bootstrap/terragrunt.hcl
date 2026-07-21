@@ -19,14 +19,20 @@ dependency "eks" {
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
-dependency "cicd" {
-  config_path = "../../cicd/pipeline"
+# The seed's source is the manifests OCI artifact in ECR (repoURL oci://...).
+dependency "ecr" {
+  config_path = "../../containers/ecr"
 
   mock_outputs = {
-    codecommit_clone_url_http = "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/mock"
+    manifests_url = "123456789012.dkr.ecr.us-east-1.amazonaws.com/kcl-modules/manifests"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "plan", "init", "destroy"]
   mock_outputs_merge_strategy_with_state  = "shallow"
+}
+
+locals {
+  environment_vars = read_terragrunt_config(find_in_parent_folders("common/common.hcl"))
+  env              = local.environment_vars.locals.environment
 }
 
 inputs = {
@@ -35,5 +41,7 @@ inputs = {
   cluster_endpoint                   = dependency.eks.outputs.cluster_endpoint
   cluster_certificate_authority_data = dependency.eks.outputs.cluster_certificate_authority_data
 
-  deploy_repo_url = dependency.cicd.outputs.codecommit_clone_url_http
+  # ArgoCD tracks the environment channel tag; must match MANIFESTS_TAG in the pipeline.
+  manifests_repo = dependency.ecr.outputs.manifests_url
+  manifests_tag  = local.env
 }

@@ -16,11 +16,6 @@ variable "platform_repo_branch" {
   type        = string
 }
 
-variable "deploy_branch" {
-  description = "Branch CodeBuild pushes rendered YAML to; ArgoCD watches this one (used by the buildspec)"
-  type        = string
-}
-
 variable "ecr_registry" {
   description = "ECR registry host (account.dkr.ecr.region.amazonaws.com) libraries push/pull from"
   type        = string
@@ -38,6 +33,16 @@ variable "ecr_repository_arns" {
 
 variable "kcl_version" {
   description = "KCL CLI version the pipeline installs (read by the install script's KCL_VERSION env var). Pinned to avoid the flaky latest lookup."
+  type        = string
+}
+
+variable "ecr_manifests_url" {
+  description = "ECR repo URL for the rendered-manifests OCI artifact — the oras push target and ArgoCD repoURL"
+  type        = string
+}
+
+variable "oras_version" {
+  description = "Pinned ORAS CLI version CodeBuild installs to push the manifests artifact"
   type        = string
 }
 

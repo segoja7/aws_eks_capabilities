@@ -8,8 +8,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: ${repo_url}
-    targetRevision: ${deploy_branch}
+    repoURL: oci://${manifests_repo}
+    targetRevision: ${manifests_tag}
     path: rendered/apps
     directory:
       recurse: true

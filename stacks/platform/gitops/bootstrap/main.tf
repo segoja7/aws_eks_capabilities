@@ -18,8 +18,8 @@ resource "kubectl_manifest" "argocd_local_cluster" {
 
 resource "kubectl_manifest" "argocd_root_app" {
   yaml_body = templatefile("${path.module}/root-app.yaml.tftpl", {
-    repo_url      = var.deploy_repo_url
-    deploy_branch = var.deploy_branch
+    manifests_repo = var.manifests_repo
+    manifests_tag  = var.manifests_tag
   })
   depends_on = [kubectl_manifest.argocd_local_cluster]
 }

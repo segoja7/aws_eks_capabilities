@@ -9,12 +9,15 @@ module "cicd" {
     render = {
       buildspec = "templates/buildspec_render.yml"
       environment_variables = {
-        REPO_NAME     = var.platform_repo_name
-        DEPLOY_BRANCH = var.deploy_branch
         # Read by the KCL install script (kcl-lang.io/script/install-cli.sh) to pin the CLI version
-        KCL_VERSION = var.kcl_version
+        KCL_VERSION   = var.kcl_version
         ECR_REGISTRY  = var.ecr_registry
         ECR_NAMESPACE = var.ecr_namespace
+        # OCI manifest delivery (Rendered Manifests Pattern). The buildspec pushes
+       
+        MANIFESTS_REPO = var.ecr_manifests_url
+        MANIFESTS_TAG  = var.environment
+        ORAS_VERSION   = var.oras_version
       }
     }
   }
