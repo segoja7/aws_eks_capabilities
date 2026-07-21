@@ -14,6 +14,7 @@ dependency "eks" {
     cluster_arn                        = "arn:aws:eks:us-east-1:000000000000:cluster/mock"
     cluster_endpoint                   = "https://mock.eks.amazonaws.com"
     cluster_certificate_authority_data = "bW9jaw=="
+    argocd_role_arn                    = "arn:aws:iam::000000000000:role/mock-argocd"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "plan", "init", "destroy"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -40,6 +41,7 @@ inputs = {
   cluster_arn                        = dependency.eks.outputs.cluster_arn
   cluster_endpoint                   = dependency.eks.outputs.cluster_endpoint
   cluster_certificate_authority_data = dependency.eks.outputs.cluster_certificate_authority_data
+  argocd_role_arn                    = dependency.eks.outputs.argocd_role_arn
 
   # ArgoCD tracks the environment channel tag; must match MANIFESTS_TAG in the pipeline.
   manifests_repo = dependency.ecr.outputs.manifests_url

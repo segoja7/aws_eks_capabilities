@@ -1,3 +1,20 @@
+# Platform config the KRO RGDs read at reconcile time (externalRef data source).
+# Holds the ArgoCD capability role ARN so the EKSCluster RGD can grant each new
+# spoke's AccessEntry to it — resolved in-cluster, not injected at render.
+resource "kubectl_manifest" "platform_config" {
+  yaml_body = yamlencode({
+    apiVersion = "v1"
+    kind       = "ConfigMap"
+    metadata = {
+      name      = "platform-config"
+      namespace = "kube-system"
+    }
+    data = {
+      argocdRoleArn = var.argocd_role_arn
+    }
+  })
+}
+
 # ArgoCD app-of-apps.
 resource "kubectl_manifest" "argocd_local_cluster" {
   yaml_body = yamlencode({

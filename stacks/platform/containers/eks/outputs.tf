@@ -27,3 +27,8 @@ output "oidc_provider_arn" {
   description = "IAM OIDC provider ARN (for IRSA)"
   value       = module.eks.oidc_provider_arn
 }
+
+output "argocd_role_arn" {
+  description = "ArgoCD capability role ARN — the principal spoke clusters grant access to (written to the platform-config ConfigMap the EKSCluster RGD reads via externalRef)"
+  value       = module.argocd.iam_role_arn
+}

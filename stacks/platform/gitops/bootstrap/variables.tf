@@ -3,6 +3,11 @@ variable "cluster_arn" {
   type        = string
 }
 
+variable "argocd_role_arn" {
+  description = "ArgoCD capability role ARN — written to platform-config so the EKSCluster RGD reads it (externalRef) as the spoke AccessEntry principal"
+  type        = string
+}
+
 variable "manifests_repo" {
   description = "ECR repo URL of the rendered-manifests OCI artifact the root Application watches (repoURL oci://...); from the ecr stack output"
   type        = string
