@@ -31,6 +31,11 @@ variable "ecr_repository_url" {
   type        = string
 }
 
+variable "kcl_version" {
+  description = "KCL CLI version the pipeline installs (read by the install script's KCL_VERSION env var). Pinned to avoid the flaky latest lookup."
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)

@@ -18,6 +18,10 @@ deploy_branch = "deploy"
 # --- ECR (KCL modules published as OCI artifacts) ---
 ecr_repository_name = "kcl-modules"
 
+# --- CI toolchain ---
+# Pin the KCL CLI the pipeline installs. 
+kcl_version = "v0.12.7"
+
 # --- ArgoCD identity ---
 argocd_admin_idc_group = "platform-admins"
 

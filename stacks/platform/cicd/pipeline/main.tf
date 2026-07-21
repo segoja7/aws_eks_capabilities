@@ -11,6 +11,9 @@ module "cicd" {
       environment_variables = {
         REPO_NAME     = var.platform_repo_name
         DEPLOY_BRANCH = var.deploy_branch
+        # Read by the KCL install script (kcl-lang.io/script/install-cli.sh) to
+        # pin the CLI version instead of resolving "latest".
+        KCL_VERSION = var.kcl_version
         ECR_REPO_URL = var.ecr_repository_url
       }
     }
