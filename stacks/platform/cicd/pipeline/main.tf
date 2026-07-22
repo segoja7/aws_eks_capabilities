@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 module "cicd" {
   source = "../../../../modules/cicd"
 
@@ -18,6 +20,8 @@ module "cicd" {
         MANIFESTS_REPO = var.ecr_manifests_url
         MANIFESTS_TAG  = var.environment
         ORAS_VERSION   = var.oras_version
+        # git-direct consumer claims
+        CLAIMS_REPO_URL = "https://git-codecommit.${data.aws_region.current.region}.amazonaws.com/v1/repos/${var.platform_repo_name}"
       }
     }
   }
