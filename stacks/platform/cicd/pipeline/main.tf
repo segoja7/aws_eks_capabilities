@@ -6,6 +6,7 @@ module "cicd" {
   name                   = "${var.project}-${var.environment}-cicd"
   source_repository_name = var.platform_repo_name
   source_branch          = var.platform_repo_branch
+  force_destroy = true #Demo purposes
 
   build_projects = {
     render = {
