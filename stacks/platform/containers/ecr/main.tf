@@ -27,3 +27,34 @@ module "manifests" {
 
   tags = var.tags
 }
+
+# --- Managed signing (AWS Signer + ECR) ------------------------------------
+# The signer profile is the IDENTITY that signs. Notation-OCI platform = the
+# signature format ECR managed signing / notation understand. AWS Signer has no
+# hard-delete (profiles move to a Canceled state), so name_prefix keeps re-creates
+# from colliding with a still-canceled name.
+resource "aws_signer_signing_profile" "platform" {
+  platform_id = "Notation-OCI-SHA384-ECDSA"
+  name_prefix = "platform_"
+  tags        = var.tags
+}
+
+# ECR managed signing config (registry-scoped). No dedicated AWS-provider resource
+# yet (aws_ecr_signing_configuration, PR hashicorp/terraform-provider-aws#47527, open
+# as of 2026-09) — but the CloudFormation type AWS::ECR::SigningConfiguration exists,
+# so we drive it declaratively through Cloud Control API: a real resource with state
+# and drift detection (no CLI/local-exec). Swap for the native resource when it ships.
+# Filter <namespace>/* signs blueprints, manifests and any future library in one rule.
+resource "aws_cloudcontrolapi_resource" "signing_config" {
+  type_name = "AWS::ECR::SigningConfiguration"
+
+  desired_state = jsonencode({
+    Rules = [{
+      SigningProfileArn = aws_signer_signing_profile.platform.arn
+      RepositoryFilters = [{
+        Filter     = "${var.ecr_namespace}/*"
+        FilterType = "WILDCARD_MATCH"
+      }]
+    }]
+  })
+}

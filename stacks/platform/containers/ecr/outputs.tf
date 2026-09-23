@@ -20,3 +20,9 @@ output "manifests_url" {
 output "repository_urls" {
   value = { for k, m in module.ecr : k => m.repository_url }
 }
+
+# AWS Signer profile ARN managed signing signs with. Consumed by the cicd role
+# (signer:SignPayload) and by the CI notation-verify gate's trust policy.
+output "signing_profile_arn" {
+  value = aws_signer_signing_profile.platform.arn
+}

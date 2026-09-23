@@ -46,6 +46,11 @@ variable "oras_version" {
   type        = string
 }
 
+variable "signing_profile_arn" {
+  description = "AWS Signer profile ARN ECR managed signing uses. The CodeBuild role needs signer:SignPayload on it (so pushes get signed) and the buildspec's notation-verify gate pins its trust policy to it."
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
