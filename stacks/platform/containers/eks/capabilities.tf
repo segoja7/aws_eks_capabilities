@@ -71,6 +71,11 @@ module "argocd" {
 #     https://docs.aws.amazon.com/eks/latest/userguide/kro-permissions.html
 # Demo = ClusterAdmin; production = a custom ClusterRole scoped to the ACK apiGroups bound to a stable group.
 
+resource "time_sleep" "capabilities_ready" {
+  depends_on      = [module.argocd, module.kro, module.ack]
+  create_duration = "60s"
+}
+
 resource "aws_eks_access_policy_association" "capabilities" {
   for_each = {
     argocd = module.argocd.iam_role_arn
@@ -84,6 +89,8 @@ resource "aws_eks_access_policy_association" "capabilities" {
   access_scope {
     type = "cluster"
   }
+
+  depends_on = [time_sleep.capabilities_ready]
 }
 
 # The account's IAM Identity Center instance (single-region, in us-east-1).
